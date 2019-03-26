@@ -1,9 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Date    : 2017-12-20 15:40:03
-# @Author  : KlausQiu
-# @QQ      : 375235513
-# @github  : https://github.com/KlausQIU
 
 import base64
 import datetime
