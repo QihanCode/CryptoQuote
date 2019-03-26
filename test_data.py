@@ -24,8 +24,7 @@ class Testdata:
         while(10):
             try:
                 self.get_quote()
-                # mercados = self.slippage_estimate(self.mercado)
-                mercados = ""
+                mercados = self.slippage_estimate(self.mercado)
                 bitcointrades = self.slippage_estimate(self.bitcointrade)
                 bitcambios = self.slippage_estimate(self.bitcambio)
                 huobis = self.slippage_estimate(self.huobi)
@@ -48,19 +47,19 @@ class Testdata:
 
     def get_quote(self):
         tick1 = time.time()
-        # t1 = threading.Thread(target=self.get_mercado_orderbook)
+        t1 = threading.Thread(target=self.get_mercado_orderbook)
         t2 = threading.Thread(target=self.get_bitcointrade_orderbook)
         t3 = threading.Thread(target=self.get_bitcambio_orderbook)
         t4 = threading.Thread(target=self.get_huobi_orderboook)
         t5 = threading.Thread(target=self.get_offer)
 
-        # t1.start()
+        t1.start()
         t2.start()
         t3.start()
         t4.start()
         t5.start()
 
-        # t1.join()
+        t1.join()
         t2.join()
         t3.join()
         t4.join()
