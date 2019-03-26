@@ -3,6 +3,7 @@ import requests
 import binance
 import HuobiServices as huobi
 import threading
+import time
 
 adjustParams = {
             "BTC":2,
@@ -335,7 +336,7 @@ class Agent:
 
 # currency = "btc"
 # testVol = 1
-
+#
 # case = Agent(currency,testVol,'all')
 # for value,item in case.revenue_estimate().items():
 #     print(value,item)
