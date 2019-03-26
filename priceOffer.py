@@ -166,6 +166,7 @@ class Agent:
         offer = {
             "FxRate" : self.get_fxrate(),
         }
+
         spread = self.spreadPoint(volume)
         offer.update(spread)
 

@@ -10,9 +10,10 @@ import HuobiServices as Huobi
 from priceOffer import Agent
 
 class Testdata:
-    def __init__(self,currency = "btc", volume = 1):
+    def __init__(self,currency = "btc", volume = 1, amount = 20):
         self.currency = currency
         self.volume = volume
+        self.amount = amount
         self.mercado = {}
         self.bitcambio = {}
         self.bitcointrade = {}
@@ -183,7 +184,7 @@ class Testdata:
 
             return slippage
 
-    def get_mercado_orderbook(self, currency="btc", amount = 20):
+    def get_mercado_orderbook(self, currency="btc"):
         tick1 = time.time()
         """get mercado orderbook"""
         mercadoOrderbook={
@@ -191,14 +192,14 @@ class Testdata:
             "bids":[]
         }
         result = requests.get("https://www.mercadobitcoin.net/api/BTC/orderbook/").json()
-        mercadoOrderbook['bids'] = result['bids'][:amount]
-        mercadoOrderbook['asks'] = result['asks'][:amount]
+        mercadoOrderbook['bids'] = result['bids'][:self.amount]
+        mercadoOrderbook['asks'] = result['asks'][:self.amount]
 
         self.mercado = mercadoOrderbook
         tick2 = time.time()
         print("mercado",tick2-tick1)
 
-    def get_bitcointrade_orderbook(self, currency = "btc", amount = 20):
+    def get_bitcointrade_orderbook(self, currency = "btc"):
         """get bitcoinTrade orderbook"""
         tick1 = time.time()
         result = requests.get("https://api.bitcointrade.com.br/v2/public/BRLBTC/orders").json()['data']
@@ -219,22 +220,22 @@ class Testdata:
             temp.append(order['amount'])
             bitcoinTradeOrderbook['asks'].append(temp)
 
-        bitcoinTradeOrderbook['bids'] = bitcoinTradeOrderbook['bids'][:amount]
-        bitcoinTradeOrderbook['asks'] = bitcoinTradeOrderbook['asks'][:amount]
+        bitcoinTradeOrderbook['bids'] = bitcoinTradeOrderbook['bids'][:self.amount]
+        bitcoinTradeOrderbook['asks'] = bitcoinTradeOrderbook['asks'][:self.amount]
 
         self.bitcointrade = bitcoinTradeOrderbook
         tick2 = time.time()
         print("bitcointrade", tick2 - tick1)
 
-    def get_bitcambio_orderbook(self, currency = "btc", amount = 20):
+    def get_bitcambio_orderbook(self, currency = "btc"):
         """get bitCambio orderbook"""
         tick1 = time.time()
         result = requests.get("https://bitcambio_api.blinktrade.com/api/v1/BRL/orderbook?crypto_currency=BTC")
         bitCambioOrderbook = {}
         bitCambioOrderbook.update(asks = result.json()["asks"])
         bitCambioOrderbook.update(bids = result.json()["bids"])
-        bitCambioOrderbook['bids'] = bitCambioOrderbook['bids'][:amount]
-        bitCambioOrderbook['asks'] = bitCambioOrderbook['asks'][:amount]
+        bitCambioOrderbook['bids'] = bitCambioOrderbook['bids'][:self.amount]
+        bitCambioOrderbook['asks'] = bitCambioOrderbook['asks'][:self.amount]
         for order in bitCambioOrderbook['bids']:
             order = order[:2]
 
@@ -245,14 +246,13 @@ class Testdata:
         tick2 = time.time()
         print("bitcambio", tick2 - tick1)
 
-    def get_huobi_orderboook (self, currency ="btc", amount = 20):
+    def get_huobi_orderboook (self, currency ="btc"):
         tick1 = time.time()
         huobiDepth = Huobi.get_depth(currency.lower() + "usdt", "step0")
 
         self.huobi = {}
-        self.huobi.update(asks=huobiDepth['tick']['asks'][:amount])
-        self.huobi.update(bids=huobiDepth['tick']['bids'][:amount])
-        print(self.huobi)
+        self.huobi.update(asks=huobiDepth['tick']['asks'][:self.amount])
+        self.huobi.update(bids=huobiDepth['tick']['bids'][:self.amount])
         tick2 = time.time()
         print("huobi", tick2 - tick1)
 
@@ -266,5 +266,5 @@ class Testdata:
         print("offer",tick2-tick1)
 
 
-case = Testdata()
+case = Testdata(amount = 100)
 case.update_data()
