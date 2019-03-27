@@ -21,7 +21,7 @@ class Testdata:
         self.offer = {}
 
     def update_data(self):
-        while(10):
+        while(1):
             try:
                 self.get_quote()
                 mercados = self.slippage_estimate(self.mercado)
@@ -43,7 +43,7 @@ class Testdata:
                 print(datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S'),"process error")
                 print(traceback.print_exc())
 
-            time.sleep(15)
+            time.sleep(5)
 
     def get_quote(self):
         tick1 = time.time()
